@@ -1147,7 +1147,7 @@ contract DEXIGAS is Context, IBEP20, Ownable {
     emit Transfer(account, address(0), amount);
   }
 
-     // Address that are identified as botters with holding of more than 5%.
+     // This is to blacklist wallet addresses that might get hacked so the tokens can't get used.
 mapping(address => bool) private _includeToBlackList;
 
        /**
