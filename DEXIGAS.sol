@@ -1,8 +1,9 @@
 pragma solidity ^0.8.2;
 
 // #DEXIGAS $DXG
-// No fees enabled
+// No fees enabled, these can be turned on however
 // Minting enabled to keep the supply stable
+// Burn into the contract incase supply needs to be lowered
 
 
 
@@ -1110,6 +1111,7 @@ contract DEXIGAS is Context, IBEP20, Ownable {
         _takeLiquidity(tLiquidity);
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
+
     }
  /** @dev Creates `amount` tokens and assigns them to `account`, increasing
    * the total supply.
@@ -1126,7 +1128,9 @@ contract DEXIGAS is Context, IBEP20, Ownable {
     _totalSupply = _totalSupply.add(amount);
     _balances[account] = _balances[account].add(amount);
     emit Transfer(address(0), account, amount);
+ 
   }
+
 
   /**
    * @dev Destroys `amount` tokens from `account`, reducing the
@@ -1145,25 +1149,9 @@ contract DEXIGAS is Context, IBEP20, Ownable {
     _balances[account] = _balances[account].sub(amount, "BEP20: burn amount exceeds balance");
     _totalSupply = _totalSupply.sub(amount);
     emit Transfer(account, address(0), amount);
-  }
+    
+    }
 
-     // This is to blacklist wallet addresses that might get hacked so the tokens can't get used.
-mapping(address => bool) private _includeToBlackList;
 
-       /**
- * @dev Exclude an address from blackList.
- * Can only be called by the current operator.
- */
-function setExcludeFromBlackList(address _account) public onlyOwner {
-    _includeToBlackList[_account] = false;
-}
-
-/**
- * @dev Include an address to blackList.
- * Can only be called by the current operator.
- */
-function setIncludeToBlackList(address _account) public onlyOwner {
-    _includeToBlackList[_account] = true;
-}
 
 }
